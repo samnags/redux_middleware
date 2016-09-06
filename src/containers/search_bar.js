@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchWeather } from '../actions/index';
 
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
 
@@ -9,15 +12,19 @@ export default class SearchBar extends Component {
 
     this.onInputChange = this.onInputChange.bind(this)
     // we're binding the instance of the SearchBar to onInputChange
+
+    this.onFormSubmit = this.onFormSubmit.bind(this)
   }
 
   onInputChange(event) {
-    console.log(event.target.value)
     this.setState({ term: event.target.value} )
   }
 
   onFormSubmit(event) {
     event.preventDefault()
+    // passing the city to fetchWeather action creator.
+    this.props.fetchWeather(this.state.term)
+    this.setState({term: ''})
   }
 
   render() {
@@ -35,3 +42,13 @@ export default class SearchBar extends Component {
     );
   }
 }
+
+// goal is to connect action creator fetchWeather to our SearchBar container.
+// THUS WE NEED A MAP DISPATCH TO ACTION
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchWeather }, dispatch);
+}
+
+// by passing in null as first argument, we're saying this container is not about state (which is the first argument)
+export default connect(null, mapDispatchToProps)(SearchBar);
