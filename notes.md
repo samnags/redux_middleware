@@ -15,3 +15,4 @@ Will our city list need to be a container or component?
 4) The action creator returns an action with a payload of the AJAX promise
 5) The middleware stops that action, waits for it to resolve and then returns the action with a payload of the resolved action
 6) The reducer receives the action and if the case line up, it copies the state and adds the new search to the array of cities
+7) 
